@@ -112,6 +112,21 @@ class Tokens extends Component {
         }
     }
 
+    // Funcion para incrementar el número de tokens en el contrato
+    incrementoTokens = async(num_tokens, mensaje) => {
+        try{
+            console.log(mensaje);
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+            await this.state.contract.methods.generarTokens(num_tokens).send({from: accounts[0]});
+        } catch(err){
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
+            console.log('loading', false);
+        }
+    }
+
 
     // Render de la DApp
     render() {
@@ -214,6 +229,29 @@ class Tokens extends Component {
                                         type="submit" 
                                         className="bbtn btn-block btn-success btn-sm" 
                                         value="Ver balance"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='blue' name='money bill alternate' />Incrementar tokens del Smart Contract</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const cantidad = this.numTokens.value;
+                                    const mensaje = "Incrementar tokens del Smart Contract en ejecución...";
+                                    this.incrementoTokens(cantidad, mensaje);
+                                }}>
+                                    <input 
+                                        type="text" 
+                                        className="form-control mb-1" 
+                                        placeholder="Número de tokens" 
+                                        ref={(input) => this.numTokens = input} 
+                                    />
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-primary btn-sm" 
+                                        value="Incrementar Tokens"
                                     />
                                 </form>
                             </div>
