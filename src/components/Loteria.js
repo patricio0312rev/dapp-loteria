@@ -105,6 +105,19 @@ class Loteria extends Component {
         }
     }
 
+    // Visualizar cantidad de boletos
+    cantidadBoletos = async(mensaje) => {
+        try {
+            console.log(mensaje);
+            const boletos = await this.state.contract.methods.tusBoletos().call();
+            alert('Tienes ' + parseFloat(boletos.length) + ' boletos. Estos son: ' + boletos);
+        } catch(err) {
+            this.setState({errorMessage: err.message})
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
 
     render() {
         return(
@@ -189,6 +202,22 @@ class Loteria extends Component {
                                         type="submit" 
                                         className="bbtn btn-block btn-warning btn-sm" 
                                         value="Comprar boletos"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='green' name='rocket' />Ver Cantidad de Boletos</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Ver cantidad de boletos en ejecución...";
+                                    this.cantidadBoletos(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-success btn-sm" 
+                                        value="Ver mi cantidad boletos"
                                     />
                                 </form>
                             </div>
