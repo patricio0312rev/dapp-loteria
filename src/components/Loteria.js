@@ -90,6 +90,22 @@ class Loteria extends Component {
         }
     }
 
+    // Comprar boletos
+    compraBoletos = async(cantidadBoletos, mensaje) => {
+        try {
+            console.log(mensaje);
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+            await this.state.contract.methods.comprarBoletos(cantidadBoletos).send({from: accounts[0]});
+            alert('¡Mucha suerte!');
+        } catch(err) {
+            this.setState({errorMessage: err.message})
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
+
     render() {
         return(
             <div>
@@ -150,6 +166,29 @@ class Loteria extends Component {
                                         type="submit" 
                                         className="bbtn btn-block btn-info btn-sm" 
                                         value="Ver precio"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='orange' name='payment' />Compra de Boletos</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const cantidad = this.cantidad.value;
+                                    const mensaje = "Compra de boletos en ejecución...";
+                                    this.compraBoletos(cantidad, mensaje);
+                                }}>                       
+                                    <input 
+                                        type="text" 
+                                        className="form-control mb-1" 
+                                        placeholder="Cantidad de boletos a comprar" 
+                                        ref={(input) => this.cantidad = input} 
+                                    />
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-warning btn-sm" 
+                                        value="Comprar boletos"
                                     />
                                 </form>
                             </div>
