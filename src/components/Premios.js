@@ -88,7 +88,22 @@ class Premios extends Component {
         } catch(err) {
 
         } finally {
+            this.setState({loading: false});
+        }
+    }
 
+    // Funcion para devolver los tokens (Tokens -> Ethers)
+    devolverTokens = async(cantidadTokens, mensaje) => {
+        try {
+            console.log(mensaje);
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+
+            await this.state.contract.methods.devolverTokens(cantidadTokens).send({from: accounts[0]});
+        } catch(err) {
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
         }
     }
 
@@ -152,6 +167,29 @@ class Premios extends Component {
                                         type="submit" 
                                         className="bbtn btn-block btn-primary btn-sm" 
                                         value="Ver Ganador"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='orange' name='money bill alternate' />Reclamar Tokens</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const cantidad = this.numTokens.value;
+                                    const mensaje = "Reclamar tokens en ejecución...";
+                                    this.devolverTokens(cantidad, mensaje);
+                                }}>
+                                    <input 
+                                        type="text" 
+                                        className="form-control mb-1" 
+                                        placeholder="Número de tokens" 
+                                        ref={(input) => this.numTokens = input} 
+                                    />
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-warning btn-sm" 
+                                        value="Reclamar Tokens"
                                     />
                                 </form>
 
