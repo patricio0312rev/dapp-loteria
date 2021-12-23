@@ -3,10 +3,10 @@ import './App.css';
 import { Container } from 'semantic-ui-react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css'
-import { Header } from './Header';
-import { Tokens } from './Tokens';
-import { Loteria } from './Loteria';
-import { Premios } from './Premios';
+import Header from './Header';
+import Tokens from './Tokens';
+import Loteria from './Loteria';
+import Premios from './Premios';
 
 class App extends Component {
   render(){
@@ -17,9 +17,9 @@ class App extends Component {
           
           <main>
             <Switch>
-              <Route exact path="/" Component={Tokens}/>
-              <Route exact path="/loteria" Component={Loteria}/>
-              <Route exact path="/premios" Component={Premios}/>
+              <Route exact path="/" component={Tokens}/>
+              <Route exact path="/loteria" component={Loteria}/>
+              <Route exact path="/premios" component={Premios}/>
             </Switch>
           </main>
         </Container>
