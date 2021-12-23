@@ -77,6 +77,19 @@ class Loteria extends Component {
         }
     }
 
+    // Visualizar el precio del boleto
+    precioBoleto = async(mensaje) => {
+        try {
+            console.log(mensaje);
+            const precio = await this.state.contract.methods.precioBoleto().call();
+            alert(parseFloat(precio));
+        } catch(err) {
+            this.setState({errorMessage: err.message})
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
     render() {
         return(
             <div>
@@ -121,6 +134,22 @@ class Loteria extends Component {
                                         type="submit" 
                                         className="bbtn btn-block btn-primary btn-sm" 
                                         value="Ver bote"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='teal' name='money bill alternate outline' />Ver Precio del Boleto</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Precio del Boleto de la Lotería en ejecución...";
+                                    this.precioBoleto(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-info btn-sm" 
+                                        value="Ver precio"
                                     />
                                 </form>
                             </div>
