@@ -172,7 +172,7 @@ class Premios extends Component {
 
                                 <br></br>
 
-                                <h3><Icon circular inverted color='orange' name='money bill alternate' />Reclamar Tokens</h3>
+                                <h3><Icon circular inverted color='orange' name='ethereum' />Reclamar Tokens</h3>
                                 <form onSubmit={(event) => {
                                     event.preventDefault();
                                     const cantidad = this.numTokens.value;
