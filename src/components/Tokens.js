@@ -97,6 +97,21 @@ class Tokens extends Component {
         }
     }
 
+    // Funcion para visualizar el número de tokens que tiene el contrato
+    balanceContrato = async(mensaje) => {
+        try{
+            console.log(mensaje);
+            const balance = await this.state.contract.methods.tokensDisponibles().call();
+
+            alert(parseFloat(balance));
+        } catch(err){
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
+            console.log('loading', false);
+        }
+    }
+
 
     // Render de la DApp
     render() {
@@ -169,7 +184,7 @@ class Tokens extends Component {
                                 <form onSubmit={(event) => {
                                     event.preventDefault();
                                     const balanceDireccion = this.balance.value;
-                                    const mensaje = "Compra de tokens en ejecución...";
+                                    const mensaje = "Búsqueda del balance del usuario en ejecución...";
                                     this.balanceUsuario(balanceDireccion, mensaje);
                                 }}>
                                     <input 
@@ -182,6 +197,22 @@ class Tokens extends Component {
                                     <input 
                                         type="submit" 
                                         className="bbtn btn-block btn-warning btn-sm" 
+                                        value="Ver balance"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='green' name='ethereum' />Balance de tokens del Smart Contract</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Búsqueda del balance del Smart Contract en ejecución...";
+                                    this.balanceContrato(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-success btn-sm" 
                                         value="Ver balance"
                                     />
                                 </form>
