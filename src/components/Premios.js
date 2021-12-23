@@ -64,9 +64,102 @@ class Premios extends Component {
         }
     }
 
+    // Funcion para establecer un ganador
+    ganador = async(mensaje) => {
+        try {
+            console.log(mensaje);
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+
+            await this.state.contract.methods.generarGanador().send({from: accounts[0]});
+        } catch(err) {
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
+    // Funcion para visualziar la direccion del ganador
+    verGanador = async(mensaje) => {
+        try {
+            console.log(mensaje);
+            const direccion_ganador = await this.state.contract.methods.direccionGanador().call();
+            alert('Direccion ganador: ' + direccion_ganador);
+        } catch(err) {
+
+        } finally {
+
+        }
+    }
+
     render() {
         return(
-            <p>Premios</p>
+            <div>
+                <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+                    <a
+                        className="navbar-brand col-sm-3 col-md-2 mr-0"
+                        href="https://frogames.es/rutas-de-aprendizaje"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        DApp
+                    </a>
+        
+                    <ul className="navbar-nav px-3"> 
+                        <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                            <small className="text-white"><span id="account">Cuenta activa: {this.state.account}</span></small>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div className="container-fluid mt-5">
+                    <div className="row">
+                        <main role="main" className="col-lg-12 d-flex text-center">
+                            <div className="content mr-auto ml-auto">
+                                <h1>Lotería con Tokens ERC-20</h1>
+
+                                <h2>Premios de la Lotería</h2>
+                                <a href="https://www.linkedin.com/in/patricio0312rev/" target="_blank" rel="noopener noreferrer">
+                                    <p></p>
+                                    <img src={tokens} width="400" heigth="400" alt="/"></img>
+                                </a>
+                                <p></p>
+
+                                <h3><Icon circular inverted color='red' name='winner' />Establecer Ganador</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Establecer ganador en ejecución...";
+                                    this.ganador(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-danger btn-sm" 
+                                        value="Generar Ganador"
+                                    />
+                                </form>
+
+                                <br></br>
+
+                                <h3><Icon circular inverted color='blue' name='eye' />Ver Ganador</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Ver ganador en ejecución...";
+                                    this.verGanador(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-primary btn-sm" 
+                                        value="Ver Ganador"
+                                    />
+                                </form>
+
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
