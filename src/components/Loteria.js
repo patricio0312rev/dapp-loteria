@@ -64,9 +64,70 @@ class Loteria extends Component {
         }
     }
 
+    // Funcion para visualizar el bote de la lotería
+    bote = async(mensaje) => {
+        try {
+            console.log(mensaje);
+            const boteLoteria = await this.state.contract.methods.bote().call();
+            alert(parseFloat(boteLoteria));
+        } catch(err) {
+            this.setState({errorMessage: err.message})
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
     render() {
         return(
-            <p>Gestión de Boletos</p>
+            <div>
+                <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+                    <a
+                        className="navbar-brand col-sm-3 col-md-2 mr-0"
+                        href="https://frogames.es/rutas-de-aprendizaje"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        DApp
+                    </a>
+        
+                    <ul className="navbar-nav px-3"> 
+                        <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                            <small className="text-white"><span id="account">Cuenta activa: {this.state.account}</span></small>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div className="container-fluid mt-5">
+                    <div className="row">
+                        <main role="main" className="col-lg-12 d-flex text-center">
+                            <div className="content mr-auto ml-auto">
+                                <h1>Lotería con Tokens ERC-20</h1>
+
+                                <h2>Gestión y control de los Boletos de la Lotería</h2>
+                                <a href="https://www.linkedin.com/in/patricio0312rev/" target="_blank" rel="noopener noreferrer">
+                                    <p></p>
+                                    <img src={tokens} width="500" heigth="350" alt="/"></img>
+                                </a>
+                                <p></p>
+
+                                <h3><Icon circular inverted color='blue' name='eye' />Ver Bote de la Lotería</h3>
+                                <form onSubmit={(event) => {
+                                    event.preventDefault();
+                                    const mensaje = "Bote total de la Lotería en ejecución...";
+                                    this.bote(mensaje);
+                                }}>
+                                    
+                                    <input 
+                                        type="submit" 
+                                        className="bbtn btn-block btn-primary btn-sm" 
+                                        value="Ver bote"
+                                    />
+                                </form>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
